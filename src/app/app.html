@@ -1,0 +1,20 @@
+<app-navbar [cartCount]="cart.length" (onSearch)="handleSearch($event)">
+</app-navbar>
+<main>
+  <div class="product-grid">
+    @for (p of filteredProducts; track p.id) {
+    <app-product-card [product]="p" [isSelected]="isProductInCart(p)" (productSelected)="toggleCart($event)">
+    </app-product-card>
+    } @empty {
+    <p>No products found.</p>
+    }
+  </div>
+</main>
+
+<footer>
+ <span><a target="_blank" href="https://ejugh.vercel.app">Angel Ejugh</a> 2025 | SeamFix Week 3 Assesment.</span>
+</footer>
+
+
+
+<router-outlet />

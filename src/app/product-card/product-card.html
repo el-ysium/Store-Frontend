@@ -1,0 +1,9 @@
+<div class="card" [class.selected]="isSelected" (click)="selectCard()">
+  <img class="product-img" [src]="product.imageUrl" [alt]="product.name">
+  <h3>{{ product.name }}</h3>
+  <p class="description">{{ product.description }}</p>
+  <div>
+      <p class="price">₦{{ product.price }}</p>
+      <span class="pill">Buy Now</span>
+  </div>
+</div>
