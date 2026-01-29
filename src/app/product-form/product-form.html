@@ -1,0 +1,96 @@
+<div class=" p-8 text-gray-600 bg-white shadow-lg rounded-xl my-10">
+    <p class="text-md font-medium mb-1">Add New Product</p>
+    <p class="text-sm text-gray-500 mb-12">This information will be used to create a new product.</p>
+
+    <form [formGroup]="productForm" (ngSubmit)="onSubmit()" class="space-y-10 **:outline-0 ">
+
+        <div>
+            <label class="block text-sm font-medium mb-2">Product Name</label>
+            <input formControlName="name" class="w-100 p-2 border border-gray-300 rounded-lg"
+                [class.border-red-500]="productForm.get('name')?.touched && productForm.get('name')?.invalid">
+            @if (productForm.get('name')?.touched && productForm.get('name')?.invalid) {
+            <small class="text-red-500">Name is required (min 3 chars).</small>
+            }
+        </div>
+        <div>
+            <label class="block text-sm font-medium mb-2">Description</label>
+            <textarea formControlName="description" class="w-full p-2 border border-gray-300 rounded-lg"
+                rows="3"></textarea>
+            @if (productForm.get('description')?.touched && productForm.get('description')?.invalid) {
+            <small class="text-red-500">Description must be at least 10 characters.</small>
+            }
+        </div>
+
+        <div class="grid grid-cols-2 gap-10">
+            <div>
+                <label class="block text-sm font-medium mb-2">Price (₦)</label>
+                <input type="number" formControlName="price" class="w-full p-2 border border-gray-300 rounded-lg">
+            </div>
+            <div>
+                <label class="block text-sm font-medium mb-2">Category</label>
+                <input formControlName="category" class="w-full p-2 border border-gray-300 rounded-lg">
+            </div>
+        </div>
+
+        <div class="p-4 mt-15 rounded-lg border border-gray-300">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="font-medium text-sm">Product Properties</h3>
+                <button type="button" (click)="addProperty()" class="text-blue-600 text-sm font-medium">+ Add
+                    Property</button>
+            </div>
+
+            <div formArrayName="properties" class="space-y-3">
+                @for (prop of properties.controls; track $index) {
+                <div [formGroupName]="$index" class="flex gap-2 items-end">
+                    <div class="w-full">
+                        <label class="text-xs font-medium">Color</label>
+                        <input formControlName="color" class="w-full p-1 border border-gray-400 rounded-lg">
+                    </div>
+                    <div class="w-full">
+                        <label class="text-xs font-medium">Weight</label>
+                        <input formControlName="weight" class="w-full p-1 border border-gray-400 rounded-lg">
+                    </div>
+                    <button type="button" (click)="removeProperty($index)"
+                        class="text-red-500 bg-red-200 px-2 py-1 rounded-full text-xs mb-1"
+                        [disabled]="properties.length === 1">✕</button>
+                </div>
+                }
+            </div>
+        </div>
+
+
+        <div class="col-span-full">
+            <label for="cover-photo" class="block text-sm/6 font-medium text-gray-600">Product image</label>
+            <div class="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
+                <div class="text-center">
+                    <svg viewBox="0 0 24 24" fill="currentColor" data-slot="icon" aria-hidden="true"
+                        class="mx-auto size-12 text-gray-300">
+                        <path
+                            d="M1.5 6a2.25 2.25 0 0 1 2.25-2.25h16.5A2.25 2.25 0 0 1 22.5 6v12a2.25 2.25 0 0 1-2.25 2.25H3.75A2.25 2.25 0 0 1 1.5 18V6ZM3 16.06V18c0 .414.336.75.75.75h16.5A.75.75 0 0 0 21 18v-1.94l-2.69-2.689a1.5 1.5 0 0 0-2.12 0l-.88.879.97.97a.75.75 0 1 1-1.06 1.06l-5.16-5.159a1.5 1.5 0 0 0-2.12 0L3 16.061Zm10.125-7.81a1.125 1.125 0 1 1 2.25 0 1.125 1.125 0 0 1-2.25 0Z"
+                            clip-rule="evenodd" fill-rule="evenodd" />
+                    </svg>
+                    <div class="mt-4 flex text-sm/6 text-gray-600">
+                        <label for="file-upload"
+                            class="relative cursor-pointer rounded-md bg-transparent font-semibold text-indigo-600 focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-indigo-600 hover:text-indigo-500">
+                            <span>Upload a file</span>
+                            <input class="sr-only" type="file" (change)="onFileSelected($event)" id="file-upload" name="file-upload" accept="image/*">
+                        </label>
+                        <p class="pl-1">or drag and drop</p>
+                    </div>
+                    <p class="text-xs/5 text-gray-600">PNG, JPG, GIF up to 102400 bytes</p>
+                </div>
+            </div>
+
+            @if (productForm.get('imageUrl')?.value) {
+            <img [src]="productForm.get('imageUrl')?.value" class="mt-2 h-32 rounded shadow">
+            }
+        </div>
+
+
+
+        <button type="submit" [disabled]="productForm.invalid"
+            class="w-full py-3 bg-purple-600 text-white rounded-lg font-bold disabled:bg-gray-300">
+            Create Product
+        </button>
+    </form>
+</div>

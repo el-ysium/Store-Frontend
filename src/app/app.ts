@@ -3,11 +3,10 @@ import { RouterOutlet } from '@angular/router';
 import { ProductService } from './services/product';
 import { CommonModule } from '@angular/common';
 import { Navbar } from './navbar/navbar';
-import { ProductCard } from './product-card/product-card';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, CommonModule, Navbar, ProductCard],
+  imports: [RouterOutlet, CommonModule, Navbar],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
