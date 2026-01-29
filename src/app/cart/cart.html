@@ -1,0 +1,38 @@
+<div class="max-w-2xl mx-auto py-10">
+    <h2 class="text-3xl font-medium mb-8">Your Cart</h2>
+
+    @for (item of productService.getCart(); track item.id) {
+    <div class="rounded-2xl mb-5 border border-neutral-200 overflow-hidden">
+
+        <div class="flex items-center justify-between p-6">
+            <div class="flex items-center gap-4">
+                <img [src]="item.imageUrl" class="size-16 rounded-lg object-cover">
+                <div>
+                    <h3 class="text-neutral-800 mb-2">{{ item.name }}</h3>
+                    <p class="text-sm text-neutral-400">₦{{ item.price }}</p>
+                </div>
+            </div>
+
+            <button (click)="removeItem(item.id)" class="text-red-400 hover:text-red-600 text-sm font-medium">
+                Remove
+            </button>
+        </div>
+
+    </div>
+    } @empty {
+    <div class="p-20 text-center">
+        <p class="text-neutral-400 mb-6">Nothing dey here....</p>
+        <a routerLink="/" class="text-purple-600 bg-purple-100/70 hover:bg-purple-200 px-7 py-3 text-sm rounded-full transition">
+            Shop
+        </a>
+    </div>
+    }
+
+
+    @if (productService.getCart().length > 0) {
+    <div class="mt-8 p-6 bg-purple-100 rounded-2xl flex justify-between items-center">
+        <span class="text-purple-800 font-medium">Total Items: {{ productService.getCart().length }}</span>
+        <button class="bg-purple-600 text-white px-8 py-3 rounded-xl font-bold">Checkout</button>
+    </div>
+    }
+</div>

@@ -1,0 +1,52 @@
+{
+    "products": [
+        {
+            "id": 1,
+            "name": "Wireless Headphones",
+            "description": "Premium noise-cancelling wireless headphones with 30-hour battery life.",
+            "price": 199000.99,
+            "imageUrl": "assets/headphones.jpg",
+            "category": "headphones"
+        },
+        {
+            "id": 2,
+            "name": "Smart Watch",
+            "description": "Track your fitness, heart rate, and notifications on the go.",
+            "price": 249000.99,
+            "imageUrl": "assets/watch.jpg",
+            "category": "watches"
+        },
+        {
+            "id": 3,
+            "name": "Mechanical Keyboard",
+            "description": "RGB backlit mechanical keyboard with tactile blue switches.",
+            "price": 89000.99,
+            "imageUrl": "assets/keyboard.jpg",
+            "category": "keyboard"
+        },
+        {
+            "id": 4,
+            "name": "Gaming Mouse",
+            "description": "High-precision 16,000 DPI optical sensor with customizable buttons.",
+            "price": 59000.99,
+            "imageUrl": "assets/mouse.jpg",
+            "category": "mouse"
+        },
+        {
+            "id": 5,
+            "name": "Portable SSD",
+            "description": "1TB ultra-fast external storage for your photos and videos.",
+            "price": 129000,
+            "imageUrl": "assets/flash.jpg",
+            "category": "ssd"
+        },
+        {
+            "id": 6,
+            "name": "Gamer Bag",
+            "description": "Bright Orange bag for really cool gamers",
+            "price": 75000.25,
+            "imageUrl": "assets/bag.jpg",
+            "category": "bag"
+        }
+    ]
+}

@@ -1,9 +1,12 @@
-<div class="card" [class.selected]="isSelected" (click)="selectCard()">
-  <img class="product-img" [src]="product.imageUrl" [alt]="product.name">
-  <h3>{{ product.name }}</h3>
-  <p class="description">{{ product.description }}</p>
-  <div>
-      <p class="price">₦{{ product.price }}</p>
-      <span class="pill">Buy Now</span>
+<div class="" [class.selected]="isSelected" (click)="selectCard()">
+  <img class="rounded-3xl mb-5 h-75 w-full object-cover" [src]="product.imageUrl" [alt]="product.name">
+  <h3 class="text-lg mb-4 text-neutral-700 font-medium">{{ product.name }}</h3>
+  <p class="mb-5 text-neutral-400 text-sm">{{ product.description }}</p>
+
+  <div class="flex mt-auto items-center justify-between">
+    <p class=" ">₦{{ product.price }}</p>
+    <a [routerLink]="['/product', product.id]" [queryParams]="{ category: product.category }" class="py-3 px-4 text-sm font-medium text-purple-600 bg-purple-100/70 hover:bg-purple-200 rounded-full">
+      Buy Now
+    </a>
   </div>
 </div>

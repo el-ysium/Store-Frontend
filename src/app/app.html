@@ -1,20 +1,11 @@
-<app-navbar [cartCount]="cart.length" (onSearch)="handleSearch($event)">
-</app-navbar>
-<main>
-  <div class="product-grid">
-    @for (p of filteredProducts; track p.id) {
-    <app-product-card [product]="p" [isSelected]="isProductInCart(p)" (productSelected)="toggleCart($event)">
-    </app-product-card>
-    } @empty {
-    <p>No products found.</p>
-    }
-  </div>
-</main>
-
-<footer>
- <span><a target="_blank" href="https://ejugh.vercel.app">Angel Ejugh</a> 2025 | SeamFix Week 3 Assesment.</span>
-</footer>
-
-
-
-<router-outlet />
+<div class="flex flex-col min-h-screen">
+  <app-navbar [cartCount]="productService.getCart().length"></app-navbar>
+  
+  <main class="grow w-full h-full compact py-20 font-light">
+    <router-outlet></router-outlet>
+  </main>
+  
+  <footer class="bg-slate-100 py-7 text-center flex justify-center mt-auto w-full">
+    <span><a target="_blank" href="https://ejugh.vercel.app">Angel Ejugh</a> 2025 | SeamFix Assesment.</span>
+  </footer>
+</div>

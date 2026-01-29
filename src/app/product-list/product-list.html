@@ -1,0 +1,12 @@
+<div>
+    <app-search-bar (searchEvent)="handleSearch($event)"></app-search-bar>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-7 gap-y-10">
+        @for (p of filteredProducts; track p.id) {
+        <app-product-card [product]="p" [isSelected]="isProductInCart(p)" (productSelected)="toggleCart($event)">
+        </app-product-card>
+        } @empty {
+        <p>No products found.</p>
+        }
+    </div>
+</div>
