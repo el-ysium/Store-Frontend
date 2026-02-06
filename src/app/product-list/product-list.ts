@@ -1,80 +1,61 @@
-import { Component, ChangeDetectorRef, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ProductCard } from '../product-card/product-card';
 import { SearchBar } from '../search-bar/search-bar';
 import { ProductService } from '../services/product';
-import { Product } from '../types/product-type';
+import { StateService } from '../services/state';
+import { CommonModule } from '@angular/common';
+import { BehaviorSubject, combineLatest, map } from 'rxjs';
 
 @Component({
-  selector: 'app-product-list',
-  imports: [ProductCard, SearchBar],
-  templateUrl: './product-list.html',
+  selector: 'app-product-form',
+  standalone: true,
+  imports: [ProductCard, SearchBar, CommonModule], templateUrl: './product-list.html',
   styleUrl: './product-list.css',
 })
-export class ProductList {
 
-  @Output() onSearch = new EventEmitter<string>();
+export class ProductList implements OnInit {
+  private stateService = inject(StateService);
+  private productService = inject(ProductService);
 
+  private searchSubject = new BehaviorSubject<string>('');
 
-  products: Product[] = [];
+  filteredProducts = combineLatest([
+    this.stateService.products$,
+    this.searchSubject
+  ]).pipe(
+    map(([products, query]) => {
+      if (!query.trim()) return products;
+      const lowerQuery = query.toLowerCase();
+      return products.filter(p => p.name.toLowerCase().includes(lowerQuery));
+    })
+  );
 
-  constructor(
-    private productService: ProductService,
-    private cdr: ChangeDetectorRef
-  ) { }
+  loading$ = this.stateService.loading$;
+  error$ = this.stateService.error$;
 
-  ngOnInit(): void {
-    this.loadProducts();
+  constructor() { }
+
+  ngOnInit() {
+    this.productService.getAllProducts().subscribe();
   }
-
-  loadProducts() {
-    console.log('Trying to fetch products...');
-    this.productService.getAllProducts().subscribe({
-      next: (data) => {
-        console.log('Data received:', data);
-        this.products = data;
-        this.cdr.detectChanges();
-      },
-      error: (err) => console.error('API Error:', err)
-    });
-  }
-
-  cart: Product[] = [];
-  searchQuery: string = '';
-
-  get filteredProducts() {
-    if (!this.searchQuery || this.searchQuery.trim() === '') {
-      return this.products;
-    }
-
-    const query = this.searchQuery.toLowerCase();
-    return this.products.filter(p =>
-      p.name.toLowerCase().includes(query)
-    );
-  }
-
-  // get filteredProducts() {
-  //   return this.products.filter(p =>
-  //     p.name.toLowerCase().includes(this.searchQuery.toLowerCase())
-  //   );
-  // }
 
   handleSearch(query: string) {
-    this.searchQuery = query;
+    this.searchSubject.next(query);
   }
 
-  toggleCart(product: Product) {
-    const index = this.cart.findIndex(p => p.id === product.id);
-    if (index > -1) {
-      this.cart.splice(index, 1); // Remove if already in cart
+  toggleCart(product: any) {
+    const currentCart = this.stateService.getCartValue();
+    const isInCart = currentCart.some(p => p.id === product.id);
+
+    if (isInCart) {
+      this.stateService.removeFromCart(product.id);
     } else {
-      this.cart.push(product); // Add if not in cart
+      this.stateService.addToCart(product);
     }
   }
 
-  isProductInCart(product: Product): boolean {
-    return this.cart.some(p => p.id === product.id);
+  isProductInCart(product: any): boolean {
+    return this.stateService.getCartValue().some(p => p.id === product.id);
   }
 
 }
-
-

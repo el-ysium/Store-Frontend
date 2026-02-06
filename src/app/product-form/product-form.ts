@@ -6,12 +6,15 @@ import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-product-form',
-  imports: [ReactiveFormsModule, CommonModule], templateUrl: './product-form.html',
+  standalone: true, // explicit standalone
+  imports: [ReactiveFormsModule, CommonModule], 
+  templateUrl: './product-form.html',
   styleUrl: './product-form.css',
 })
 export class ProductForm {
 
   productForm: FormGroup;
+  errorMessage: string | null = null; // Define this property
 
   constructor(
     private fb: FormBuilder,
@@ -29,12 +32,10 @@ export class ProductForm {
     });
   }
 
-
   createProperty(): FormGroup {
     return this.fb.group({
       color: ['', Validators.required],
       weight: ['', Validators.required]
-
     });
   }
 
@@ -54,31 +55,46 @@ export class ProductForm {
 
   onFileSelected(event: any) {
     const file = event.target.files[0];
+    
     if (file) {
-      const reader = new FileReader();
+    
+      if (file.size > 102400) {
+        this.errorMessage = 'File is too large! Please select an image under 100KB.';
+        this.productForm.patchValue({ imageUrl: '' }); 
+        event.target.value = null; 
+        return;
+      }
 
-      // This runs after the file is finished being read
+      
+      this.errorMessage = null;
+
+      const reader = new FileReader();
       reader.onload = () => {
         this.productForm.patchValue({
-          imageUrl: reader.result // This is the Base64 string
+          imageUrl: reader.result 
         });
+        this.productForm.get('imageUrl')?.updateValueAndValidity();
       };
 
-      reader.readAsDataURL(file); // Start reading the file
+      reader.readAsDataURL(file); 
     }
   }
 
   onSubmit() {
     if (this.productForm.valid) {
+      
+      this.errorMessage = null; 
+
       this.productService.createProduct(this.productForm.value).subscribe({
         next: () => {
           alert('Product created successfully!');
           this.router.navigate(['/']);
         },
-        error: (err) => console.error('Error creating product', err)
+
+        error: (err: string) => {
+          this.errorMessage = err; 
+        }
       });
     }
   }
 }
-
-

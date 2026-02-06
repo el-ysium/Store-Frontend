@@ -73,7 +73,8 @@
                         <label for="file-upload"
                             class="relative cursor-pointer rounded-md bg-transparent font-semibold text-indigo-600 focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-indigo-600 hover:text-indigo-500">
                             <span>Upload a file</span>
-                            <input class="sr-only" type="file" (change)="onFileSelected($event)" id="file-upload" name="file-upload" accept="image/*">
+                            <input class="sr-only" type="file" (change)="onFileSelected($event)" id="file-upload"
+                                name="file-upload" accept="image/*">
                         </label>
                         <p class="pl-1">or drag and drop</p>
                     </div>
@@ -86,6 +87,11 @@
             }
         </div>
 
+        @if (errorMessage) {
+        <div class="p-3 mb-4 bg-red-50 text-red-600 border border-red-200 rounded-lg">
+            {{ errorMessage }}
+        </div>
+        }
 
 
         <button type="submit" [disabled]="productForm.invalid"

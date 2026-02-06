@@ -1,11 +1,25 @@
 <div>
     <app-search-bar (searchEvent)="handleSearch($event)"></app-search-bar>
-    
+
+    @if (loading$ | async) {
+    <div class="flex flex-col items-center py-20">
+        <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600"></div>
+        <p class="mt-4 text-gray-500">Loading your store...</p>
+    </div>
+    }
+
+    @if (error$ | async; as error) {
+    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded text-center">
+        <strong>Error:</strong> {{ error }}
+    </div>
+    }
+
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-7 gap-y-10">
-        @for (p of filteredProducts; track p.id) {
+        @for (p of filteredProducts | async; track p.id) {
         <app-product-card [product]="p" [isSelected]="isProductInCart(p)" (productSelected)="toggleCart($event)">
         </app-product-card>
-        } @empty {
+        }
+        @empty {
         <p>No products found.</p>
         }
     </div>

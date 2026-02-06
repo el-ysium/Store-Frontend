@@ -1,7 +1,7 @@
 <div class="max-w-2xl mx-auto py-10">
     <h2 class="text-3xl font-medium mb-8">Your Cart</h2>
 
-    @for (item of productService.getCart(); track item.id) {
+    @for (item of (cart$ | async); track item.id) {
     <div class="rounded-2xl mb-5 border border-neutral-200 overflow-hidden">
 
         <div class="flex items-center justify-between p-6">
@@ -28,10 +28,9 @@
     </div>
     }
 
-
-    @if (productService.getCart().length > 0) {
+    @if ((cart$ | async)?.length) {
     <div class="mt-8 p-6 bg-purple-100 rounded-2xl flex justify-between items-center">
-        <span class="text-purple-800 font-medium">Total Items: {{ productService.getCart().length }}</span>
+        <span class="text-purple-800 font-medium">Total Items: {{ (cart$ | async)?.length }}</span>
         <button class="bg-purple-600 text-white px-8 py-3 rounded-xl font-bold">Checkout</button>
     </div>
     }

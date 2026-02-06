@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ProductService } from '../services/product';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
@@ -9,9 +9,13 @@ import { RouterLink } from '@angular/router';
   templateUrl: './cart.html'
 })
 export class Cart {
-  constructor(public productService: ProductService) {}
+  private productService = inject(ProductService);
+  cart$ = this.productService.getCart();
+
 
   removeItem(id: string | number) {
-    this.productService.removeFromCart(id as any);
+    this.productService.removeFromCart(id);
   }
+
+
 }
