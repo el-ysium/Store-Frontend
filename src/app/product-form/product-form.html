@@ -28,8 +28,25 @@
             </div>
             <div>
                 <label class="block text-sm font-medium mb-2">Category</label>
-                <input formControlName="category" class="w-full p-2 border border-gray-300 rounded-lg">
+                <select formControlName="categoryId" class="w-full p-2 border border-gray-300 rounded-lg"
+                    [class.border-red-500]="productForm.get('categoryId')?.touched && productForm.get('categoryId')?.invalid">
+                    <option [ngValue]="null" disabled>Select a category</option>
+                    @for (category of categories; track category.id) {
+                    <option [ngValue]="category.id">{{ category.name }}</option>
+                    }
+                </select>
+                @if (loadingCategories) {
+                <small class="text-gray-500">Loading categories...</small>
+                }
+                @if (productForm.get('categoryId')?.touched && productForm.get('categoryId')?.invalid) {
+                <small class="text-red-500">Please select a category.</small>
+                }
             </div>
+        </div>
+
+        <div>
+            <label class="block text-sm font-medium mb-2">Stock</label>
+            <input type="number" formControlName="stock" class="w-full p-2 border border-gray-300 rounded-lg">
         </div>
 
         <div class="p-4 mt-15 rounded-lg border border-gray-300">

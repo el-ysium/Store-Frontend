@@ -2,15 +2,16 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
-import { Product } from '../types/product-type';
+import { CreateProductPayload, Product } from '../types/product-type';
 import { ErrorHandlerService } from './error-handler';
 import { StateService } from './state';
+import { API_BASE_URL } from '../config/api.config';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProductService {
-  private apiUrl = 'http://localhost:8000/products';
+  private apiUrl = `${API_BASE_URL}/products`;
 
   constructor(
     private http: HttpClient,
@@ -53,7 +54,7 @@ export class ProductService {
   }
 
   // Update getProductsById and createProduct similarly:
-  createProduct(product: Product) {
+  createProduct(product: CreateProductPayload) {
     return this.http.post<Product>(this.apiUrl, product).pipe(
       tap(newProd => this.state.addProduct(newProd)),
       catchError(err => {

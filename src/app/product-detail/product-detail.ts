@@ -12,14 +12,26 @@ import { CommonModule } from '@angular/common';
 })
 export class ProductDetail implements OnInit {
   product: Product | undefined;
-  errorMessage: string | null = null; 
+  errorMessage: string | null = null;
 
   constructor(
     private route: ActivatedRoute,
-    private router: Router, 
+    private router: Router,
     public productService: ProductService,
-    private cdr: ChangeDetectorRef 
+    private cdr: ChangeDetectorRef,
   ) { }
+
+  get imageUrl(): string {
+    if (!this.product) return '';
+    return this.product.imageUrl ?? `https://picsum.photos/seed/${this.product.id}/200/300`;
+  }
+
+  get categoryName(): string {
+    if (!this.product?.category) return '';
+    return typeof this.product.category === 'string'
+      ? this.product.category
+      : this.product.category.name;
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');

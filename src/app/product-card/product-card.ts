@@ -19,6 +19,15 @@ export class ProductCard {
   selectCard() {
     this.productSelected.emit(this.product);
   }
+
+  get imageUrl(): string {
+    return this.product.imageUrl ?? `https://picsum.photos/seed/${this.product.id}/200/300`;
+  }
+
+  get categoryName(): string {
+    const { category } = this.product;
+    return typeof category === 'string' ? category : category?.name ?? '';
+  }
 }
 
 
