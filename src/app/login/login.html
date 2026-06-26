@@ -1,0 +1,40 @@
+<div class="max-w-md mx-auto p-8 text-gray-600 bg-white shadow-lg rounded-xl my-10">
+  <p class="text-md font-medium mb-1">Welcome back</p>
+  <p class="text-sm text-gray-500 mb-8">Sign in to browse products and manage your cart.</p>
+
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="space-y-6">
+    <div>
+      <label class="block text-sm font-medium mb-2">Email</label>
+      <input
+        type="email"
+        formControlName="email"
+        class="w-full p-2 border border-gray-300 rounded-lg"
+        [class.border-red-500]="loginForm.get('email')?.touched && loginForm.get('email')?.invalid"
+      />
+      @if (loginForm.get('email')?.touched && loginForm.get('email')?.invalid) {
+        <small class="text-red-500">A valid email is required.</small>
+      }
+    </div>
+
+    <div>
+      <label class="block text-sm font-medium mb-2">Password</label>
+      <input
+        type="password"
+        formControlName="password"
+        class="w-full p-2 border border-gray-300 rounded-lg"
+        [class.border-red-500]="loginForm.get('password')?.touched && loginForm.get('password')?.invalid"
+      />
+      @if (loginForm.get('password')?.touched && loginForm.get('password')?.invalid) {
+        <small class="text-red-500">Password is required (min 6 characters).</small>
+      }
+    </div>
+
+    <button
+      type="submit"
+      [disabled]="loginForm.invalid"
+      class="w-full py-3 bg-purple-600 text-white rounded-lg font-bold disabled:bg-gray-300"
+    >
+      Log in
+    </button>
+  </form>
+</div>
