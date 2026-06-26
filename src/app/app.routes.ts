@@ -4,12 +4,15 @@ import { ProductDetail } from './product-detail/product-detail';
 import { Cart } from './cart/cart';
 import { NotFound } from './not-found/not-found';
 import { ProductForm } from './product-form/product-form';
+import { Login } from './login/login';
+import { authGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
-    { path: 'products', component: ProductList },
-    { path: 'products/new', component: ProductForm },
-    { path: 'product/:id', component: ProductDetail },
-    { path: 'cart', component: Cart },
+    { path: 'login', component: Login },
+    { path: 'products', component: ProductList, canActivate: [authGuard] },
+    { path: 'products/new', component: ProductForm, canActivate: [authGuard] },
+    { path: 'product/:id', component: ProductDetail, canActivate: [authGuard] },
+    { path: 'cart', component: Cart, canActivate: [authGuard] },
     { path: '', redirectTo: 'products', pathMatch: 'full' },
-    { path: '**', component: NotFound }
+    { path: '**', component: NotFound },
 ];
