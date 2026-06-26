@@ -1,10 +1,10 @@
 
 @if (product) {
   <div class=" grid grid-cols-1 md:grid-cols-2 gap-10 mx-auto">
-    <img [src]="product.imageUrl" class="rounded-lg shadow-md">
+    <img [src]="imageUrl" class="rounded-lg shadow-md">
     
     <div>
-      <span class="text-blue-500 uppercase font-medium text-sm">{{ product.category }}</span>
+      <span class="text-blue-500 uppercase font-medium text-sm">{{ categoryName }}</span>
       <h1 class="text-4xl font-medium my-4">{{ product.name }}</h1>
       <p class="text-neutral-600 mb-6">{{ product.description }}</p>
       <p class="text-xl font-medium text-neutral-800 mb-6">₦{{ product.price }}</p>
